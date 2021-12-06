@@ -15,9 +15,25 @@ if(!empty($_FILES['csv']['tmp_name'])){
     
     move_uploaded_file($_FILES['csv']['tmp_name'],"file/".$newFileName);
 
-    echo "<a href='file/{$newFileName}'>{$_FILES['csv']['name']}</a>";
+    //echo "<a href='file/{$newFileName}'>{$_FILES['csv']['name']}</a>";
+    if($subname=='txt' || $subname=="csv"){
+        saveToDB("file/".$newFileName);
+    }
 }
 
 
+
+function saveToDB($file){
+    echo "得到檔案".$file."<br>";
+    echo "準備進行資料處理作業.....";
+
+    $resource=fopen($file,'a+');
+    while(!feof($resource)){
+        echo fgets($resource)."<br>";
+    
+    }
+
+    fclose($resource);
+}
 
 ?>
