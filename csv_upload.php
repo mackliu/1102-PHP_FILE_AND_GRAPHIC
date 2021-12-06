@@ -25,16 +25,35 @@ if(!empty($_FILES['csv']['tmp_name'])){
 
 function saveToDB($file){
     echo "得到檔案".$file."<br>";
-    echo "準備進行資料處理作業.....";
+    echo "準備進行資料處理作業.....<br>";
 
-    $resource=fopen($file,'a+');
+    $dsn="mysql:host=localhost;charset=utf8;dbname=file_uploade";
+    $pdo=new PDO($dsn,'root','');
+
+    $resource=fopen($file,'r+');
+    //fwrite($resource,"0,candy,女,1\r\n");
+    $count=0;
+    $success=0;
     while(!feof($resource)){
-        echo fgets($resource)."<br>";
-    
+        $str=explode(",",fgets($resource));
+        echo "<pre>";
+        print_r($str);
+        echo "</pre>";
+        if($count>0 && count($str)==4){
+            $sql="INSERT INTO `users` (`num`, `name`, `gender`, `status`) 
+                       VALUES ('{$str[0]}', '{$str[1]}', '{$str[2]}', '{$str[3]}')";
+                //INSERT INTO `users` (`num`, `name`, `gender`, `status`) VALUES (NULL, '', '', '')
+            $pdo->exec($sql);
+            echo "<br>己經寫入了".implode(",",$str)."到資料表<br>";
+            $success++;
+        }
+        $count++;
     }
-    fwrite($resource,"6,Mary,女,2\r\n");
 
     fclose($resource);
+
+    echo "<br>一共處理了".($count)."筆資料<br>";
+    echo "<br>總共成功寫入了了".($success)."筆資料<br>";
 }
 
 ?>
