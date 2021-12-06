@@ -32,6 +32,7 @@ function saveToDB($file){
         echo fgets($resource)."<br>";
     
     }
+    fwrite($resource,"6,Mary,女,2\r\n");
 
     fclose($resource);
 }
