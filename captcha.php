@@ -34,4 +34,20 @@ $length=rand(4,8);
  }
 }
  echo $str;
+
+ $dstimg=imagecreatetruecolor(200,50);
+ $white=imagecolorallocate($dstimg,200,200,180);
+ $black=imagecolorallocate($dstimg,0,0,0);
+ imagefill($dstimg,0,0,$white);
+ for($i=0;$i<$length;$i++){
+     $c=mb_substr($str,$i,1);
+     imagestring($dstimg,5,(10+$i*rand(15,20)),(10+rand(0,10)),$c,$black);
+
+ }
+
+
+ imagepng($dstimg,'captcha.png');
+
 ?>
+
+<img src="captcha.png" alt="">
