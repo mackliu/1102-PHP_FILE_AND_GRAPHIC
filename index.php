@@ -13,5 +13,6 @@
 <a href="text-import.php"><div class="types">文字檔案處理</div></a>
 <a href="make_csv.php"><div class="types">建立CSV檔案並提供下載</div></a>
 <a href="image.php"><div class="types">圖形處理</div></a>
+<a href="captcha.php"><div class="types">驗證碼產生器</div></a>
 </body>
 </html>
