@@ -34,33 +34,40 @@ $length=rand(4,8);
  }
 }
  echo $str;
- $str="ggyy";
- $padding=0;
- $fontBox=imagettfbbox(30,0,'f:/file/font/arial.ttf',$str);
- $tw=$padding+($fontBox[2]-$fontBox[0]);
- $th=$padding+($fontBox[1]-$fontBox[7]);
-$x=$tw;
-$y=$th;
- $dstimg=imagecreatetruecolor($tw,$th);
+
+ $padding=10;
+
+ $fontBox=imagettfbbox(30,30,realpath('./font/arial.ttf'),$str);
+
+ $x_array=[$fontBox[0],$fontBox[2],$fontBox[4],$fontBox[6]];
+ $y_array=[$fontBox[1],$fontBox[3],$fontBox[5],$fontBox[7]];
+
+ $fw=(max($x_array)-min($x_array));
+ $fh=(max($y_array)-min($y_array));
+
+ $w=$fw+$padding;
+ $h=$fh+$padding;
+
+ $dstimg=imagecreatetruecolor($w,$h);
+
  $white=imagecolorallocate($dstimg,200,200,180);
  $black=imagecolorallocate($dstimg,0,0,0);
+ 
  imagefill($dstimg,0,0,$white);
 
-echo "<br>w=>".$tw."<br>";
-echo "h=>".$th;
-$start_x=$padding/2;
-$start_y=($padding/2)+($fontBox[1]-$fontBox[7]);
-imagettftext($dstimg,30,0,$start_x,$start_y,$black,'f:/file/font/arial.ttf',$str);
+
+$start_x=$padding/2+(0-min($x_array));
+$start_y=($padding/2)+$fh-max($y_array);
+imagettftext($dstimg,30,30,$start_x,$start_y,$black,realpath('./font/arial.ttf'),$str);
+
+
+imagepng($dstimg,'captcha.png');
+?>
+<p><img src="captcha.png" alt=""></p>
+<?php
+echo "<br>w=>".$w."<br>";
+echo "h=>".$h;
 echo "<pre>";
 print_r($fontBox);
 echo "</pre>";
-
-
-
-
- imagepng($dstimg,'captcha.png');
-
 ?>
-
-<img src="captcha.png" alt="" 
-     >
